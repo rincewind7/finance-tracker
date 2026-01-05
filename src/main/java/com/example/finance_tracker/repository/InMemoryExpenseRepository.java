@@ -16,7 +16,6 @@ public class InMemoryExpenseRepository implements ExpenseRepository {
         expenses.add(expense);
     }
 
-    //Każdy @Repository w Springu: jest Beanem & ma scope singleton (domyślnie) & istnieje jedna instancja na aplikację
     @Override
     public List<Expense> findAll() {
         return Collections.unmodifiableList(expenses);

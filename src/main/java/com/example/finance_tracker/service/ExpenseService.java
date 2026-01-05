@@ -10,11 +10,6 @@ import java.util.List;
 public class ExpenseService {
     private final ExpenseRepository repository;
 
-    //constructor-based Dependency Injection
-    //Service nie tworzy repozytorium (Nie ma new InMemoryExpenseRepository()_
-    //Zamiast tego mówi: „potrzebuję ExpenseRepository” (interfejs) Spring wstrzykuje konkretną implementację
-    //Service zależy od abstrakcji a nie od implementacji (DIP – Dependency Inversion Principle
-    // serwis nie powinien wiedzieć, jak dane są zapisywane tylko co może z nimi zrobić
     public ExpenseService(ExpenseRepository repository) {
         this.repository = repository;
     }

@@ -3,7 +3,6 @@ package com.example.finance_tracker;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-//testowa klasa do wyświetlania
 @Controller
 public class HomeController {
 

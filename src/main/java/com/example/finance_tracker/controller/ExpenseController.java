@@ -22,8 +22,8 @@ public class ExpenseController {
     }
     //RequestBody - JSON z requestu zamieniany jest na obiek Java (tu klasa Expense), jeśli JSON nie pasuje to 400
     @PostMapping
-    public void addExpense(@RequestBody Expense expense) {
-        service.addExpense(expense);
+    public Expense addExpense(@RequestBody Expense expense) {
+        return service.addExpense(expense);
     }
 
     //mapuje metodę na HTTP GET, ścieżka: /expenses

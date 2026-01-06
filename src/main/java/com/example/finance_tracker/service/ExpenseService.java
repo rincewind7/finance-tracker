@@ -19,8 +19,8 @@ public class ExpenseService {
         this.repository = repository;
     }
 
-    public void addExpense(Expense expense) {
-        repository.save(expense);
+    public Expense addExpense(Expense expense) {
+        return repository.save(expense);
     }
 
     public List<Expense> getAllExpenses() {

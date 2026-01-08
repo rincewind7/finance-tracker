@@ -2,6 +2,7 @@ package com.example.finance_tracker.service;
 
 import com.example.finance_tracker.dto.ExpenseRequestDto;
 import com.example.finance_tracker.dto.ExpenseResponseDto;
+import com.example.finance_tracker.exception.ExpenseNotFoundException;
 import com.example.finance_tracker.model.Expense;
 import com.example.finance_tracker.repository.ExpenseRepository;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,12 @@ public class ExpenseService {
                 saved.getDescription(),
                 saved.getCategory()
         );
+    }
+    public void deleteExpense(Long id) {
+        Expense expense= repository.findById(id)
+                .orElseThrow(() -> new ExpenseNotFoundException(id));
+        repository.delete(expense);
+
     }
 
     public List<Expense> getAllExpenses() {

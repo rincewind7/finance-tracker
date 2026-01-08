@@ -27,5 +27,10 @@ public class ExpenseController  {
     public List<Expense> getExpenses() {
         return service.getAllExpenses();
     }
+    @DeleteMapping("/{id}")
+    public void deleteExpense(@PathVariable Long id) {
+        service.deleteExpense(id);
+
+    }
 
 }

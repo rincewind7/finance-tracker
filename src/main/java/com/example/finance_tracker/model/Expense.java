@@ -35,4 +35,8 @@ public class Expense {
         return category;
     }
     public Long getId() { return id; }
+
+    public void setAmount(BigDecimal amount) {this.amount = amount;}
+    public void setDescription(String description) {this.description = description;}
+    public void setCategory(String category) {this.category = category;}
 }

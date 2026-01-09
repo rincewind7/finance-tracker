@@ -5,8 +5,11 @@ import com.example.finance_tracker.dto.ExpenseResponseDto;
 import com.example.finance_tracker.model.Expense;
 import com.example.finance_tracker.service.ExpenseService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -19,8 +22,11 @@ public class ExpenseController  {
     }
 
     @PostMapping
-    public ExpenseResponseDto addExpense( @Valid @RequestBody ExpenseRequestDto dto) {
-        return service.addExpense(dto);
+    public ResponseEntity<ExpenseResponseDto> addExpense( @Valid @RequestBody ExpenseRequestDto dto) {
+        ExpenseResponseDto saved = service.addExpense(dto);
+        return ResponseEntity
+                .created(URI.create("/expenses/" + saved.getId()))
+                .body(saved);
     }
 
     @GetMapping
@@ -28,9 +34,15 @@ public class ExpenseController  {
         return service.getAllExpenses();
     }
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteExpense(@PathVariable Long id) {
         service.deleteExpense(id);
 
+    }
+    @PutMapping("/{id}")
+    ResponseEntity<ExpenseResponseDto> changeExpense
+            (@Valid @RequestBody ExpenseRequestDto dto, @PathVariable Long id) {
+        return ResponseEntity.ok(service.changeExpense(dto, id));
     }
 
 }

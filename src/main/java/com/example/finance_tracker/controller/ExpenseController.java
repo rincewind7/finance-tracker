@@ -1,5 +1,6 @@
 package com.example.finance_tracker.controller;
 
+import com.example.finance_tracker.dto.ExpensePatchRequestDto;
 import com.example.finance_tracker.dto.ExpenseRequestDto;
 import com.example.finance_tracker.dto.ExpenseResponseDto;
 import com.example.finance_tracker.model.Expense;
@@ -40,9 +41,14 @@ public class ExpenseController  {
 
     }
     @PutMapping("/{id}")
-    ResponseEntity<ExpenseResponseDto> changeExpense
+    ResponseEntity<ExpenseResponseDto> updateExpense
             (@Valid @RequestBody ExpenseRequestDto dto, @PathVariable Long id) {
-        return ResponseEntity.ok(service.changeExpense(dto, id));
+        return ResponseEntity.ok(service.updateExpense(dto, id));
+    }
+    @PatchMapping("/{id}")
+    ResponseEntity<ExpenseResponseDto> patchExpense
+            (@Valid @RequestBody ExpensePatchRequestDto dto, @PathVariable Long id) {
+        return ResponseEntity.ok(service.patchExpense(dto,id));
     }
 
 }

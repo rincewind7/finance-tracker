@@ -1,5 +1,6 @@
 package com.example.finance_tracker.service;
 
+import com.example.finance_tracker.dto.ExpensePatchRequestDto;
 import com.example.finance_tracker.dto.ExpenseRequestDto;
 import com.example.finance_tracker.dto.ExpenseResponseDto;
 import com.example.finance_tracker.exception.ExpenseNotFoundException;
@@ -51,7 +52,7 @@ public class ExpenseService {
     public List<Expense> getAllExpenses() {
         return repository.findAll();
     }
-    public ExpenseResponseDto changeExpense(ExpenseRequestDto dto, Long id) {
+    public ExpenseResponseDto updateExpense(ExpenseRequestDto dto, Long id) {
         Expense expense = repository.findById(id)
                 .orElseThrow(() -> new ExpenseNotFoundException(id));
 
@@ -59,6 +60,31 @@ public class ExpenseService {
         expense.setCategory(dto.getCategory());
         expense.setDescription(dto.getDescription());
 
+        // save Entity
+        Expense saved = repository.save(expense);
+
+        // Entity -> Response DTO
+        return new ExpenseResponseDto (
+                saved.getId(),
+                saved.getAmount(),
+                saved.getDescription(),
+                saved.getCategory()
+        );
+
+    }
+    public ExpenseResponseDto patchExpense(ExpensePatchRequestDto dto, Long id) {
+        Expense expense = repository.findById(id)
+                .orElseThrow(() -> new ExpenseNotFoundException(id));
+
+        if (dto.getAmount() != null) {
+            expense.setAmount(dto.getAmount());
+        }
+        if (dto.getCategory() != null) {
+            expense.setCategory(dto.getCategory());
+        }
+        if (dto.getDescription() != null) {
+            expense.setDescription(dto.getDescription());
+        }
         // save Entity
         Expense saved = repository.save(expense);
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/expenses")
@@ -49,6 +50,10 @@ public class ExpenseController  {
     ResponseEntity<ExpenseResponseDto> patchExpense
             (@Valid @RequestBody ExpensePatchRequestDto dto, @PathVariable Long id) {
         return ResponseEntity.ok(service.patchExpense(dto,id));
+    }
+    @GetMapping("/categories")
+    public Set<String> getCategories() {
+        return service.getAllCategories();
     }
 
 }

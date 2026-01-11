@@ -1,5 +1,6 @@
 package com.example.finance_tracker.service;
 
+import com.example.finance_tracker.dictionary.CategorySet;
 import com.example.finance_tracker.dto.ExpensePatchRequestDto;
 import com.example.finance_tracker.dto.ExpenseRequestDto;
 import com.example.finance_tracker.dto.ExpenseResponseDto;
@@ -7,12 +8,15 @@ import com.example.finance_tracker.exception.ExpenseNotFoundException;
 import com.example.finance_tracker.model.Expense;
 import com.example.finance_tracker.repository.ExpenseRepository;
 import jakarta.validation.Valid;
+import jdk.jfr.Category;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ExpenseService {
@@ -97,5 +101,11 @@ public class ExpenseService {
         );
 
     }
+    public Set<String> getAllCategories() {
+            return repository.findAll()
+                    .stream()
+                    .map(Expense::getCategory)
+                    .collect(Collectors.toSet());
+        }
+    }
 
-}

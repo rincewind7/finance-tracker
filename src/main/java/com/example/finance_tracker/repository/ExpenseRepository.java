@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Set;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
+    @Query("SELECT DISTINCT e.category FROM Expense e WHERE e.category IS NOT NULL")
+    Set<String> findDistinctCategories();
 }
 
 

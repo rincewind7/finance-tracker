@@ -31,7 +31,7 @@ public class ExpenseService {
         Expense expense = new Expense(
                 dto.getAmount(),
                 dto.getDescription(),
-                dto.getCategory()
+                dto.getCategory().trim().toLowerCase()
         );
 
         // save Entity
@@ -39,7 +39,7 @@ public class ExpenseService {
 
         // Entity -> Response DTO
 
-        return new ExpenseResponseDto (
+        return new ExpenseResponseDto(
                 saved.getId(),
                 saved.getAmount(),
                 saved.getDescription(),
@@ -47,28 +47,31 @@ public class ExpenseService {
         );
 
     }
+
     public void deleteExpense(Long id) {
-        Expense expense= repository.findById(id)
+        Expense expense = repository.findById(id)
                 .orElseThrow(() -> new ExpenseNotFoundException(id));
         repository.delete(expense);
 
     }
+
     public List<Expense> getAllExpenses() {
         return repository.findAll();
     }
+
     public ExpenseResponseDto updateExpense(ExpenseRequestDto dto, Long id) {
         Expense expense = repository.findById(id)
                 .orElseThrow(() -> new ExpenseNotFoundException(id));
 
         expense.setAmount(dto.getAmount());
-        expense.setCategory(dto.getCategory());
+        expense.setCategory(dto.getCategory().trim().toLowerCase());
         expense.setDescription(dto.getDescription());
 
         // save Entity
         Expense saved = repository.save(expense);
 
         // Entity -> Response DTO
-        return new ExpenseResponseDto (
+        return new ExpenseResponseDto(
                 saved.getId(),
                 saved.getAmount(),
                 saved.getDescription(),
@@ -76,6 +79,7 @@ public class ExpenseService {
         );
 
     }
+
     public ExpenseResponseDto patchExpense(ExpensePatchRequestDto dto, Long id) {
         Expense expense = repository.findById(id)
                 .orElseThrow(() -> new ExpenseNotFoundException(id));
@@ -84,7 +88,7 @@ public class ExpenseService {
             expense.setAmount(dto.getAmount());
         }
         if (dto.getCategory() != null) {
-            expense.setCategory(dto.getCategory());
+            expense.setCategory(dto.getCategory().trim().toLowerCase());
         }
         if (dto.getDescription() != null) {
             expense.setDescription(dto.getDescription());
@@ -93,7 +97,7 @@ public class ExpenseService {
         Expense saved = repository.save(expense);
 
         // Entity -> Response DTO
-        return new ExpenseResponseDto (
+        return new ExpenseResponseDto(
                 saved.getId(),
                 saved.getAmount(),
                 saved.getDescription(),
@@ -102,10 +106,6 @@ public class ExpenseService {
 
     }
     public Set<String> getAllCategories() {
-            return repository.findAll()
-                    .stream()
-                    .map(Expense::getCategory)
-                    .collect(Collectors.toSet());
-        }
+        return repository.findDistinctCategories();
     }
-
+}
